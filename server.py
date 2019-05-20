@@ -72,9 +72,11 @@ class Classification(ClassificationServer.ClassificationServicer):
         Runs the classifier (random forest) with UserFeatures
         Returns UserClass
         '''
+        ffr = (data.followers / data.friends) if data.friends > 0 else data.followers
+        stfv = (data.statuses / data.favorites) if data.favorites > 0 else data.statuses
         features = [
             data.followers, data.friends, data.statuses,
-            data.favorites, data.lists, data.ffr, data.stfv
+            data.favorites, data.lists, ffr, stfv
         ]
         # Probability
         proba = self.clf.predict_proba([features])
